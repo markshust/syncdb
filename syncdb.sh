@@ -22,7 +22,7 @@ if [[ `ssh $REMOTE_HOST 'test -e ~/'$REMOTE_MYSQL_DB'.tmp.sql && echo exists'` =
 fi
 
 echo "Creating zipped backup of remote database"
-ssh $REMOTE_HOST 'mysqldump -h '$REMOTE_MYSQL_HOST' -u '$REMOTE_MYSQL_USER' -p'$REMOTE_MYSQL_PASS' '$REMOTE_MYSQL_DB' > ~/'$REMOTE_MYSQL_DB'.tmp.sql' &> /dev/null
+ssh $REMOTE_HOST 'mysqldump --single-transaction -h '$REMOTE_MYSQL_HOST' -u '$REMOTE_MYSQL_USER' -p'$REMOTE_MYSQL_PASS' '$REMOTE_MYSQL_DB' > ~/'$REMOTE_MYSQL_DB'.tmp.sql' &> /dev/null
 ssh $REMOTE_HOST 'tar -czf '$REMOTE_MYSQL_DB'.tmp.sql.tar.gz '$REMOTE_MYSQL_DB'.tmp.sql' &> /dev/null
 
 echo "Transferring backup from remote to local"
